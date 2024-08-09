@@ -2,8 +2,9 @@
 #define MOVIE_H
 
 #include <string>
+#include "printable.h"
 
-class Movie
+class Movie: Printable
 {
 public:
     Movie(std::string title, std::string format, int certificate, int rating, int running_time);
@@ -15,6 +16,8 @@ public:
     int get_certificate() const;
     int get_rating() const;
     int get_running_time() const;
+
+    virtual void print(std::ostream &os) const override;
 
 private:
     std::string title;

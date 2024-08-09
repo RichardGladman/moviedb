@@ -9,7 +9,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(MovieDb main.cpp
     menu.h menu.cpp
-    movie.h movie.cpp)
+    movie.h movie.cpp
+    movies.h movies.cpp
+    printable.cpp printable.h)
 
 target_include_directories(MovieDb PRIVATE /usr/local/include/ansicodes)
 target_link_libraries(MovieDb PRIVATE ansicodes::ansicodes_lib)

@@ -6,7 +6,7 @@ Movies::Movies(): movies {} {}
 
 bool Movies::add(std::string name, std::string format, int certificate, int rating, int running_time)
 {
-    auto it = std::find_if(movies.begin(), movies.end(), [name] (Movie movie) { return movie.get_title() == name; });
+    auto it = std::find_if(movies.begin(), movies.end(), [name] (std::shared_ptr<Movie> movie) { return movie->get_title() == name; });
     if (it != movies.end()) {
         return false;
     }
@@ -19,7 +19,7 @@ bool Movies::add(std::string name, std::string format, int certificate, int rati
 
 bool Movies::remove(std::string name)
 {
-    auto it = std::find_if(movies.begin(), movies.end(), [name] (Movie movie) { return movie.get_title() == name; });
+    auto it = std::find_if(movies.begin(), movies.end(), [name] (std::shared_ptr<Movie> movie) { return movie->get_title() == name; });
     if (it != movies.end()) {
         movies.erase(it);
         return true;
@@ -30,7 +30,7 @@ bool Movies::remove(std::string name)
 
 void Movies::print(std::ostream &os) const {
 
-    for (std::shared_ptr<Movie> movie: movies) {
+    for (const std::shared_ptr<Movie> &movie: movies) {
         os << movie;
     }
 }

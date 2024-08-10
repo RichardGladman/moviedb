@@ -6,7 +6,12 @@ Movies::Movies(): movies {} {}
 
 std::shared_ptr<Movie> Movies::find(std::string title)
 {
-    auto it = std::find_if(movies.begin(), movies.end(), [title] (std::shared_ptr<Movie> movie) { return movie->get_title() == title; });
+    std::transform(title.begin(), title.end(), title.begin(), [] (unsigned char c) { return std::tolower(c); });
+    auto it = std::find_if(movies.begin(), movies.end(), [title] (std::shared_ptr<Movie> movie) {
+        std::string movie_title = movie->get_title();
+        std::transform(movie_title.begin(), movie_title.end(), movie_title.begin(), [] (unsigned char c) { return std::tolower(c); });
+        return movie_title == title;
+    });
 
     if (it == movies.end()) {
         return nullptr;
@@ -15,22 +20,34 @@ std::shared_ptr<Movie> Movies::find(std::string title)
     return *it;
 }
 
-bool Movies::add(std::string name, std::string format, int certificate, int rating, int running_time)
+bool Movies::add(std::string title, std::string format, int certificate, int rating, int running_time)
 {
-    auto it = std::find_if(movies.begin(), movies.end(), [name] (std::shared_ptr<Movie> movie) { return movie->get_title() == name; });
+    std::transform(title.begin(), title.end(), title.begin(), [] (unsigned char c) { return std::tolower(c); });
+    auto it = std::find_if(movies.begin(), movies.end(), [title] (std::shared_ptr<Movie> movie) {
+        std::string movie_title = movie->get_title();
+        std::transform(movie_title.begin(), movie_title.end(), movie_title.begin(), [] (unsigned char c) { return std::tolower(c); });
+        return movie_title == title;
+    });
+
     if (it != movies.end()) {
         return false;
     }
 
-    std::shared_ptr<Movie> movie = std::make_shared<Movie>(name, format, certificate, rating, running_time);
+    std::shared_ptr<Movie> movie = std::make_shared<Movie>(title, format, certificate, rating, running_time);
     movies.push_back(movie);
 
     return true;
 }
 
-bool Movies::remove(std::string name)
+bool Movies::remove(std::string title)
 {
-    auto it = std::find_if(movies.begin(), movies.end(), [name] (std::shared_ptr<Movie> movie) { return movie->get_title() == name; });
+    std::transform(title.begin(), title.end(), title.begin(), [] (unsigned char c) { return std::tolower(c); });
+    auto it = std::find_if(movies.begin(), movies.end(), [title] (std::shared_ptr<Movie> movie) {
+        std::string movie_title = movie->get_title();
+        std::transform(movie_title.begin(), movie_title.end(), movie_title.begin(), [] (unsigned char c) { return std::tolower(c); });
+        return movie_title == title;
+    });
+
     if (it != movies.end()) {
         movies.erase(it);
         return true;

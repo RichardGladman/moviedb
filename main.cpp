@@ -4,6 +4,7 @@
 #include <ansicodes.h>
 #include <limits>
 
+#include "input.h"
 #include "menu.h"
 #include "movies.h"
 
@@ -13,13 +14,11 @@ void handle_delete_movie();
 void handle_list_movies();
 void handle_view_movie();
 
-std::string input(std::string prompt, int min_len=0);
-
 int main()
 {
     std::unique_ptr<Movies> movies = std::make_unique<Movies>();
-    char selection {};
     std::unique_ptr<Menu> menu = std::make_unique<Menu>();
+    char selection {};
 
     do {
         menu->display_main();
@@ -51,36 +50,12 @@ int main()
 
 void handle_add_movie(std::unique_ptr<Movies> &movies)
 {
-    std::string title = input("Enter the movie title", 1);
-    std::string format = input("Enter the movie format", 3);
+    std::string title = Input::get_text("Enter the movie title", 1);
+    std::string format = Input::get_text("Enter the movie format", 3);
 
-    int certificate {};
-    int rating {};
-    int running_time {};
-
-    try {
-        std::string in = input("Enter the movie certificate");
-        certificate = std::stoi(in);
-    } catch (std::invalid_argument e) {
-        std::cout << ANSICodes::RED << "Fatal Error non-numeric input for certificate" << ANSICodes::RESET << std::endl;
-        return;
-    }
-
-    try {
-        std::string in = input("Enter the movie rating");
-        rating = std::stoi(in);
-    } catch (std::invalid_argument e) {
-        std::cout << ANSICodes::RED << "Fatal Error non-numeric input for rating" << ANSICodes::RESET << std::endl;
-        return;
-    }
-
-    try {
-        std::string in = input("Enter the movie running time in minutes");
-        running_time = std::stoi(in);
-    } catch (std::invalid_argument e) {
-        std::cout << ANSICodes::RED << "Fatal Error non-numeric input for running time" << ANSICodes::RESET << std::endl;
-        return;
-    }
+    int certificate = Input::get_number("Enter the movie certificate");
+    int rating = Input::get_number("Enter the movie rating");
+    int running_time = Input::get_number("Enter the movie running time in minutes");
 
     movies->add(title, format, certificate, rating, running_time);
     std::cout << ANSICodes::GREEN << "Movie " << title << " successfully added to moviedb" << ANSICodes::RESET << std::endl << std::endl;
@@ -104,22 +79,4 @@ void handle_list_movies()
 void handle_view_movie()
 {
 
-}
-
-std::string input(std::string prompt, int min_len)
-{
-    std::string in {};
-
-    do {
-        std::cout << prompt << ": ";
-
-        std::getline(std::cin, in);
-
-        if (min_len > 0 && in.length() < min_len) {
-            std::cout << ANSICodes::RED << "Error: Input must be at least " << min_len << " characters long" << ANSICodes::RESET << std::endl;
-        }
-
-    } while (min_len > 0 && in.length() < min_len);
-
-    return in;
 }

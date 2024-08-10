@@ -57,8 +57,11 @@ void handle_add_movie(std::unique_ptr<Movies> &movies)
     int rating = Input::get_number("Enter the movie rating");
     int running_time = Input::get_number("Enter the movie running time in minutes");
 
-    movies->add(title, format, certificate, rating, running_time);
-    std::cout << ANSICodes::GREEN << "Movie " << title << " successfully added to moviedb" << ANSICodes::RESET << std::endl << std::endl;
+    if (movies->add(title, format, certificate, rating, running_time)) {
+        std::cout << ANSICodes::GREEN << "Movie " << title << " successfully added to moviedb" << ANSICodes::RESET << std::endl << std::endl;
+    } else {
+        std::cout << ANSICodes::RED << "Failed to add " << title << " to moviedb" << ANSICodes::RESET << std::endl << std::endl;
+    }
 }
 
 void handle_edit_movie(std::unique_ptr<Movies> &movies)
@@ -79,8 +82,11 @@ void handle_edit_movie(std::unique_ptr<Movies> &movies)
     int running_time = Input::get_number("Enter the movie running time in minutes (blank to use existing)", movie->get_running_time());
 
     movies->remove(target);
-    movies->add(title, format, certificate, rating, running_time);
-    std::cout << ANSICodes::GREEN << "Movie " << title << " successfully updated in moviedb" << ANSICodes::RESET << std::endl << std::endl;
+    if (movies->add(title, format, certificate, rating, running_time)) {
+        std::cout << ANSICodes::GREEN << "Movie " << title << " successfully updated in moviedb" << ANSICodes::RESET << std::endl << std::endl;
+    } else {
+        std::cout << ANSICodes::RED << "Failed to edit " << title << " in moviedb" << ANSICodes::RESET << std::endl << std::endl;
+    }
 }
 
 void handle_delete_movie()

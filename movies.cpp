@@ -59,6 +59,6 @@ bool Movies::remove(std::string title)
 void Movies::print(std::ostream &os) const {
 
     for (const std::shared_ptr<Movie> &movie: movies) {
-        os << movie;
+        os << *movie << "\n";
     }
 }

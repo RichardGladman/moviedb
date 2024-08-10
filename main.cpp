@@ -11,7 +11,7 @@
 void handle_add_movie(std::unique_ptr<Movies> &movies);
 void handle_edit_movie(std::unique_ptr<Movies> &movies);
 void handle_delete_movie(std::unique_ptr<Movies> &movies);
-void handle_list_movies();
+void handle_list_movies(std::unique_ptr<Movies> &movies);
 void handle_view_movie(std::unique_ptr<Movies> &movies);
 
 int main()
@@ -38,7 +38,7 @@ int main()
             handle_delete_movie(movies);
             break;
         case 'L':
-            handle_list_movies();
+            handle_list_movies(movies);
             break;
         case 'V':
             handle_view_movie(movies);
@@ -103,9 +103,9 @@ void handle_delete_movie(std::unique_ptr<Movies> &movies)
     std::cout << ANSICodes::GREEN << "Movie " << target << " successfully removed from moviedb" << ANSICodes::RESET << std::endl << std::endl;
 }
 
-void handle_list_movies()
+void handle_list_movies(std::unique_ptr<Movies> &movies)
 {
-
+    std::cout << *movies << std::endl;
 }
 
 void handle_view_movie(std::unique_ptr<Movies> &movies)

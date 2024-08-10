@@ -91,7 +91,7 @@ void handle_edit_movie(std::unique_ptr<Movies> &movies)
 
 void handle_delete_movie(std::unique_ptr<Movies> &movies)
 {
-    std::string target = Input::get_text("Enter movie title to edit");
+    std::string target = Input::get_text("Enter movie title to delete");
     std::shared_ptr<Movie> movie = movies->find(target);
 
     if (movie == nullptr) {

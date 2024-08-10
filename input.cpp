@@ -38,8 +38,8 @@ int Input::get_number(std::string prompt, int default_value)
             continue;
         } catch (std::out_of_range e) {
             std::cout << ANSICodes::RED << "Error: number too large" << ANSICodes::RESET << std::endl;
+            continue;
         }
-        continue;
         break;
     } while (true);
 

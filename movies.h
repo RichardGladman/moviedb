@@ -12,6 +12,7 @@ class Movies: public Printable
 public:
     Movies();
 
+    std::shared_ptr<Movie> find(std::string title);
     bool add(std::string name, std::string format, int certificate, int rating, int running_time);
     bool remove(std::string name);
     virtual void print(std::ostream &os) const override;

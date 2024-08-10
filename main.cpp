@@ -12,7 +12,7 @@ void handle_add_movie(std::unique_ptr<Movies> &movies);
 void handle_edit_movie(std::unique_ptr<Movies> &movies);
 void handle_delete_movie(std::unique_ptr<Movies> &movies);
 void handle_list_movies();
-void handle_view_movie();
+void handle_view_movie(std::unique_ptr<Movies> &movies);
 
 int main()
 {
@@ -41,7 +41,7 @@ int main()
             handle_list_movies();
             break;
         case 'V':
-            handle_view_movie();
+            handle_view_movie(movies);
             break;
         }
     } while (selection != 'Q');
@@ -108,7 +108,15 @@ void handle_list_movies()
 
 }
 
-void handle_view_movie()
+void handle_view_movie(std::unique_ptr<Movies> &movies)
 {
+    std::string target = Input::get_text("Enter movie title to view");
+    std::shared_ptr<Movie> movie = movies->find(target);
 
+    if (movie == nullptr) {
+        std::cout << ANSICodes::RED << target << " not found" << ANSICodes::RESET << std::endl << std::endl;
+        return;
+    }
+
+    std::cout << *movie <<std::endl << std::endl;
 }

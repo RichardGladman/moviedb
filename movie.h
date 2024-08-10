@@ -4,7 +4,7 @@
 #include <string>
 #include "printable.h"
 
-class Movie: Printable
+class Movie: public Printable
 {
 public:
     Movie(std::string title, std::string format, int certificate, int rating, int running_time);

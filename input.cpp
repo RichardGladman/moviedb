@@ -3,7 +3,7 @@
 #include "input.h"
 #include <ansicodes.h>
 
-std::string Input::get_text(std::string prompt, int min_len)
+std::string Input::get_text(std::string prompt, int min_len, std::string default_value)
 {
     std::string in {};
 
@@ -18,10 +18,10 @@ std::string Input::get_text(std::string prompt, int min_len)
 
     } while (min_len > 0 && in.length() < min_len);
 
-    return in;
+    return in.length() > 0 ? in : default_value;
 }
 
-int Input::get_number(std::string prompt)
+int Input::get_number(std::string prompt, int default_value)
 {
     std::string in {};
     int number {};
@@ -32,7 +32,7 @@ int Input::get_number(std::string prompt)
         std::getline(std::cin, in);
 
         try {
-            number = std::stoi(in);
+            number = in.length() > 0 ? std::stoi(in) : default_value;
         } catch (std::invalid_argument e) {
             std::cout << ANSICodes::RED << "Error: non-numeric input for certificate" << ANSICodes::RESET << std::endl;
             continue;

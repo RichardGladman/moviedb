@@ -10,7 +10,7 @@
 
 void handle_add_movie(std::unique_ptr<Movies> &movies);
 void handle_edit_movie(std::unique_ptr<Movies> &movies);
-void handle_delete_movie();
+void handle_delete_movie(std::unique_ptr<Movies> &movies);
 void handle_list_movies();
 void handle_view_movie();
 
@@ -35,7 +35,7 @@ int main()
             handle_edit_movie(movies);
             break;
         case 'D':
-            handle_delete_movie();
+            handle_delete_movie(movies);
             break;
         case 'L':
             handle_list_movies();
@@ -89,9 +89,18 @@ void handle_edit_movie(std::unique_ptr<Movies> &movies)
     }
 }
 
-void handle_delete_movie()
+void handle_delete_movie(std::unique_ptr<Movies> &movies)
 {
+    std::string target = Input::get_text("Enter movie title to edit");
+    std::shared_ptr<Movie> movie = movies->find(target);
 
+    if (movie == nullptr) {
+        std::cout << ANSICodes::RED << target << " not found" << ANSICodes::RESET << std::endl << std::endl;
+        return;
+    }
+
+    movies->remove(target);
+    std::cout << ANSICodes::GREEN << "Movie " << target << " successfully removed from moviedb" << ANSICodes::RESET << std::endl << std::endl;
 }
 
 void handle_list_movies()

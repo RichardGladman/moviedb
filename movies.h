@@ -15,6 +15,8 @@ public:
     std::shared_ptr<Movie> find(std::string title);
     bool add(std::string title, std::string format, int certificate, int rating, int running_time);
     bool remove(std::string title);
+
+    std::vector<std::shared_ptr<Movie>> get_movies();
     virtual void print(std::ostream &os) const override;
 
 private:

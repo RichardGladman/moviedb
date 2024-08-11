@@ -62,3 +62,7 @@ void Movies::print(std::ostream &os) const {
         os << *movie << "\n";
     }
 }
+
+std::vector<std::shared_ptr<Movie>> Movies::get_movies() {
+    return movies;
+}

@@ -13,7 +13,7 @@ add_executable(MovieDb main.cpp
     movies.h movies.cpp
     printable.cpp printable.h
     input.h input.cpp
-    README)
+    filehandler.h filehandler.cpp)
 
 target_include_directories(MovieDb PRIVATE /usr/local/include/ansicodes)
 target_link_libraries(MovieDb PRIVATE ansicodes::ansicodes_lib)

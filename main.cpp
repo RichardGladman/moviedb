@@ -7,12 +7,14 @@
 #include "input.h"
 #include "menu.h"
 #include "movies.h"
+#include "filehandler.h"
 
 void handle_add_movie(std::unique_ptr<Movies> &movies);
 void handle_edit_movie(std::unique_ptr<Movies> &movies);
 void handle_delete_movie(std::unique_ptr<Movies> &movies);
 void handle_list_movies(std::unique_ptr<Movies> &movies);
 void handle_view_movie(std::unique_ptr<Movies> &movies);
+void handle_quit(std::unique_ptr<Movies> &movies);
 
 int main()
 {
@@ -42,6 +44,9 @@ int main()
             break;
         case 'V':
             handle_view_movie(movies);
+            break;
+        case 'Q':
+            handle_quit(movies);
             break;
         }
     } while (selection != 'Q');
@@ -119,4 +124,9 @@ void handle_view_movie(std::unique_ptr<Movies> &movies)
     }
 
     std::cout << *movie <<std::endl << std::endl;
+}
+
+void handle_quit(std::unique_ptr<Movies> &movies)
+{
+    FileHandler::save(movies);
 }

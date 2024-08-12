@@ -20,7 +20,7 @@ std::shared_ptr<Movie> Movies::find(std::string title)
     return *it;
 }
 
-bool Movies::add(std::string title, std::string format, int certificate, int rating, int running_time)
+bool Movies::add(std::string title, std::string format, std::string certificate, int rating, int running_time)
 {
     std::transform(title.begin(), title.end(), title.begin(), [] (unsigned char c) { return std::tolower(c); });
     auto it = std::find_if(movies.begin(), movies.end(), [title] (std::shared_ptr<Movie> movie) {

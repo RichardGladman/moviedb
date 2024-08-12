@@ -60,8 +60,8 @@ void handle_add_movie(std::unique_ptr<Movies> &movies)
 {
     std::string title = Input::get_text("Enter the movie title", 1);
     std::string format = Input::get_text("Enter the movie format", 3);
+    std::string certificate = Input::get_text("Enter the movie certificate");
 
-    int certificate = Input::get_number("Enter the movie certificate");
     int rating = Input::get_number("Enter the movie rating");
     int running_time = Input::get_number("Enter the movie running time in minutes");
 
@@ -84,8 +84,8 @@ void handle_edit_movie(std::unique_ptr<Movies> &movies)
 
     std::string title = Input::get_text("Enter title for movie (blank to use existing)", 0, movie->get_title());
     std::string format = Input::get_text("Enter format for movie (blank to use existing)", 0, movie->get_format());
+    std::string certificate = Input::get_text("Enter the movie certificate (blank to use existing)", 0, movie->get_certificate());
 
-    int certificate = Input::get_number("Enter the movie certificate (blank to use existing)", movie->get_certificate());
     int rating = Input::get_number("Enter the movie rating (blank to use existing)", movie->get_rating());
     int running_time = Input::get_number("Enter the movie running time in minutes (blank to use existing)", movie->get_running_time());
 

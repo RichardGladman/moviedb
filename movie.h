@@ -7,13 +7,13 @@
 class Movie: public Printable
 {
 public:
-    Movie(std::string title, std::string format, int certificate, int rating, int running_time);
+    Movie(std::string title, std::string format, std::string certificate, int rating, int running_time);
     Movie(std::string title);
     Movie();
 
     std::string get_title() const;
     std::string get_format() const;
-    int get_certificate() const;
+    std::string get_certificate() const;
     int get_rating() const;
     int get_running_time() const;
 
@@ -22,7 +22,7 @@ public:
 private:
     std::string title;
     std::string format;
-    int certificate;
+    std::string certificate;
     int rating;
     int running_time;
 };

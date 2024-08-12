@@ -59,7 +59,7 @@ bool FileHandler::load(std::unique_ptr<Movies> &movies)
             tokens[i++] = token;
         }
 
-        movies->add(tokens[0], tokens[1], std::stoi(tokens[2]), std::stoi(tokens[3]), std::stoi(tokens[4]));
+        movies->add(tokens[0], tokens[1], tokens[2], std::stoi(tokens[3]), std::stoi(tokens[4]));
     }
 
     return true;

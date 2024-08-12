@@ -3,18 +3,18 @@
 #include <ansicodes.h>
 #include <iomanip>
 
-Movie::Movie(std::string title, std::string format, int certificate, int rating, int running_time):
+Movie::Movie(std::string title, std::string format, std::string certificate, int rating, int running_time):
     title {title}, format {format}, certificate {certificate}, rating {rating}, running_time {running_time}
 {
 
 }
 
-Movie::Movie(std::string title): Movie {title, "", 0, 0, 0}
+Movie::Movie(std::string title): Movie {title, "", "0""", 0, 0}
 {
 
 }
 
-Movie::Movie(): Movie {"", "", 0, 0, 0}
+Movie::Movie(): Movie {"", "", "0""", 0, 0}
 {
 
 }
@@ -29,7 +29,7 @@ std::string Movie::get_format() const
     return format;
 }
 
-int Movie::get_certificate() const
+std::string Movie::get_certificate() const
 {
     return certificate;
 }

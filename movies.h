@@ -13,7 +13,7 @@ public:
     Movies();
 
     std::shared_ptr<Movie> find(std::string title);
-    bool add(std::string title, std::string format, int certificate, int rating, int running_time);
+    bool add(std::string title, std::string format, std::string certificate, int rating, int running_time);
     bool remove(std::string title);
 
     std::vector<std::shared_ptr<Movie>> get_movies();

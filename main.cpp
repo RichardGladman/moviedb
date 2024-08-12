@@ -3,18 +3,19 @@
 #include <string>
 #include <ansicodes.h>
 #include <limits>
+#include <cctype>
 
 #include "input.h"
 #include "menu.h"
 #include "movies.h"
 #include "filehandler.h"
 
-void handle_add_movie(std::unique_ptr<Movies> &movies);
-void handle_edit_movie(std::unique_ptr<Movies> &movies);
-void handle_delete_movie(std::unique_ptr<Movies> &movies);
+void handle_add_movie(std::unique_ptr<Movies> &movies, bool &data_changed);
+void handle_edit_movie(std::unique_ptr<Movies> &movies, bool &data_changed);
+void handle_delete_movie(std::unique_ptr<Movies> &movies, bool &data_changed);
 void handle_list_movies(std::unique_ptr<Movies> &movies);
 void handle_view_movie(std::unique_ptr<Movies> &movies);
-void handle_quit(std::unique_ptr<Movies> &movies);
+void handle_quit(std::unique_ptr<Movies> &movies, bool &data_changed);
 
 int main()
 {
@@ -34,13 +35,13 @@ int main()
 
         switch (selection) {
         case 'A':
-            handle_add_movie(movies);
+            handle_add_movie(movies, data_changed);
             break;
         case 'E':
-            handle_edit_movie(movies);
+            handle_edit_movie(movies, data_changed);
             break;
         case 'D':
-            handle_delete_movie(movies);
+            handle_delete_movie(movies, data_changed);
             break;
         case 'L':
             handle_list_movies(movies);
@@ -49,14 +50,14 @@ int main()
             handle_view_movie(movies);
             break;
         case 'Q':
-            handle_quit(movies);
+            handle_quit(movies, data_changed);
             break;
         }
     } while (selection != 'Q');
     return 0;
 }
 
-void handle_add_movie(std::unique_ptr<Movies> &movies)
+void handle_add_movie(std::unique_ptr<Movies> &movies, bool &data_changed)
 {
     std::string title = Input::get_text("Enter the movie title", 1);
     std::string format = Input::get_text("Enter the movie format", 3);
@@ -66,13 +67,14 @@ void handle_add_movie(std::unique_ptr<Movies> &movies)
     int running_time = Input::get_number("Enter the movie running time in minutes");
 
     if (movies->add(title, format, certificate, rating, running_time)) {
+        data_changed = true;
         std::cout << ANSICodes::GREEN << "Movie " << title << " successfully added to moviedb" << ANSICodes::RESET << std::endl << std::endl;
     } else {
         std::cout << ANSICodes::RED << "Failed to add " << title << " to moviedb" << ANSICodes::RESET << std::endl << std::endl;
     }
 }
 
-void handle_edit_movie(std::unique_ptr<Movies> &movies)
+void handle_edit_movie(std::unique_ptr<Movies> &movies, bool &data_changed)
 {
     std::string target = Input::get_text("Enter movie title to edit");
     std::shared_ptr<Movie> movie = movies->find(target);
@@ -91,13 +93,14 @@ void handle_edit_movie(std::unique_ptr<Movies> &movies)
 
     movies->remove(target);
     if (movies->add(title, format, certificate, rating, running_time)) {
+        data_changed = true;
         std::cout << ANSICodes::GREEN << "Movie " << title << " successfully updated in moviedb" << ANSICodes::RESET << std::endl << std::endl;
     } else {
         std::cout << ANSICodes::RED << "Failed to edit " << title << " in moviedb" << ANSICodes::RESET << std::endl << std::endl;
     }
 }
 
-void handle_delete_movie(std::unique_ptr<Movies> &movies)
+void handle_delete_movie(std::unique_ptr<Movies> &movies, bool &data_changed)
 {
     std::string target = Input::get_text("Enter movie title to delete");
     std::shared_ptr<Movie> movie = movies->find(target);
@@ -108,6 +111,7 @@ void handle_delete_movie(std::unique_ptr<Movies> &movies)
     }
 
     movies->remove(target);
+    data_changed = true;
     std::cout << ANSICodes::GREEN << "Movie " << target << " successfully removed from moviedb" << ANSICodes::RESET << std::endl << std::endl;
 }
 
@@ -129,7 +133,16 @@ void handle_view_movie(std::unique_ptr<Movies> &movies)
     std::cout << *movie <<std::endl << std::endl;
 }
 
-void handle_quit(std::unique_ptr<Movies> &movies)
+void handle_quit(std::unique_ptr<Movies> &movies, bool &data_changed)
 {
-    FileHandler::save(movies);
+    if (data_changed) {
+        char yesorno {};
+        std::cout << ANSICodes::RED << "Data has changed, do you want to save? (Y/N) : " << ANSICodes::RESET;
+        std::cin >> yesorno;
+        yesorno = std::toupper(yesorno);
+
+        if (yesorno == 'Y') {
+            FileHandler::save(movies);
+        }
+    }
 }

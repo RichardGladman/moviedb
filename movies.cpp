@@ -22,11 +22,12 @@ std::shared_ptr<Movie> Movies::find(std::string title)
 
 bool Movies::add(std::string title, std::string format, std::string certificate, int rating, int running_time)
 {
-    std::transform(title.begin(), title.end(), title.begin(), [] (unsigned char c) { return std::tolower(c); });
-    auto it = std::find_if(movies.begin(), movies.end(), [title] (std::shared_ptr<Movie> movie) {
+    std::string target = title;
+    std::transform(target.begin(), target.end(), target.begin(), [] (unsigned char c) { return std::tolower(c); });
+    auto it = std::find_if(movies.begin(), movies.end(), [target] (std::shared_ptr<Movie> movie) {
         std::string movie_title = movie->get_title();
         std::transform(movie_title.begin(), movie_title.end(), movie_title.begin(), [] (unsigned char c) { return std::tolower(c); });
-        return movie_title == title;
+        return movie_title == target;
     });
 
     if (it != movies.end()) {

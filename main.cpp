@@ -20,7 +20,10 @@ int main()
 {
     std::unique_ptr<Movies> movies = std::make_unique<Movies>();
     std::unique_ptr<Menu> menu = std::make_unique<Menu>();
+    bool data_changed {false};
     char selection {};
+
+    FileHandler::load(movies);
 
     do {
         menu->display_main();

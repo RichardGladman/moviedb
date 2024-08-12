@@ -8,6 +8,7 @@ class FileHandler
 {
 public:
     static bool save(const std::unique_ptr<Movies> &movies);
+    static bool load(std::unique_ptr<Movies> &movies);
 };
 
 #endif // FILEHANDLER_H

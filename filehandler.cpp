@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <filesystem>
+#include <algorithm>
 
 #include <ansicodes.h>
 
@@ -23,6 +24,9 @@ bool FileHandler::save(const std::unique_ptr<Movies> &movies)
         std::cout << ANSICodes::RED << "Failed to open " << path << " for writing" << ANSICodes::RESET << std::endl;
         return false;
     }
+
+    std::vector<std::shared_ptr<Movie>> m = movies->get_movies();
+    std::sort(m.begin(), m.end(), [] (std::shared_ptr<Movie> m1, std::shared_ptr<Movie> m2) { return m1->get_title() < m2->get_title(); });
 
     for (const std::shared_ptr<Movie> &movie: movies->get_movies()) {
         file << movie->get_title() << "|" << movie->get_format() << "|" << movie->get_certificate() << "|"

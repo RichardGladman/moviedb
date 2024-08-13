@@ -65,6 +65,6 @@ void Movies::print(std::ostream &os) const {
     }
 }
 
-std::vector<std::shared_ptr<Movie>> Movies::get_movies() {
+std::vector<std::shared_ptr<Movie>> &Movies::get_movies() {
     return movies;
 }

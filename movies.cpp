@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iomanip>
 
 #include "movies.h"
 
@@ -60,8 +61,17 @@ bool Movies::remove(std::string title)
 
 void Movies::print(std::ostream &os) const {
 
+    os << std::setw(80) << std::left << std::setfill('-') << "" << std::setfill(' ') << "\n";
+    os << std::setw(35) << std::left << "Title" << std::setw(10) << std::left << "Format"
+       << std::setw(12) << "Certificate" << std::setw(10) << "Rating" << std::setw(10) << "Running Time\n";
+    os << std::setw(80) << std::left << std::setfill('-') << "" << std::setfill(' ') << "\n";
+
     for (const std::shared_ptr<Movie> &movie: movies) {
-        os << *movie << "\n";
+        os << std::setw(35) << std::left << movie->get_title();
+        os << std::setw(10) << std::left << movie->get_format();
+        os << std::setw(12) << movie->get_certificate();
+        os << std::setw(10) << movie->get_rating();
+        os << std::setw(10) << movie->get_running_time() << "\n";
     }
 }
 
